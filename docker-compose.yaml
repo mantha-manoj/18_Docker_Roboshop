@@ -30,14 +30,6 @@ services:
     build: ./payment
     image: manojmantha/payment:1.0.0
     container_name: payment
-    environment:
-      CART_HOST: "cart"
-      CART_PORT: "8080"
-      USER_HOST: "user"
-      USER_PORT: "8080"
-      AMQP_HOST: "rabbitmq"
-      AMQP_USER: "roboshop"
-      AMQP_PASS: "roboshop123"
     depends_on:
     - rabbitmq
     - cart
@@ -55,8 +47,8 @@ services:
     - shipping
     - payment
   mongodb:
-    build: ./mongodb # it moves to mongodb directory
-    image: manojmantha/mongodb:1.0.0 # docker build -t manojmantha/mongodb:1.0.0
+    build: ./mongodb 
+    image: manojmantha/mongodb:1.0.0 
     container_name: mongodb
 
   redis:
