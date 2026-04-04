@@ -5,7 +5,6 @@ services:
     container_name: catalogue
     depends_on:
     - mongodb
-  
   user:
     build: ./user
     image: manojmantha/user:1.0.0
@@ -13,7 +12,6 @@ services:
     depends_on:
     - redis
     - mongodb
-
   cart:
     build: ./cart
     image: manojmantha/cart:1.0.0
@@ -21,7 +19,6 @@ services:
     depends_on:
     - redis
     - catalogue
-
   shipping:
     build: ./shipping
     image: manojmantha/shipping:1.0.0
@@ -29,7 +26,6 @@ services:
     depends_on:
     - mysql
     - cart
-
   payment:
     build: ./payment
     image: manojmantha/payment:1.0.0
@@ -46,7 +42,6 @@ services:
     - rabbitmq
     - cart
     - user
-
   frontend:
     build: ./frontend
     image: manojmantha/frontend:1.0.0
@@ -59,30 +54,38 @@ services:
     - cart
     - shipping
     - payment
-
   mongodb:
-    build: ./mongodb
-    image: manojmantha/mongodb:1.0.0
+    build: ./mongodb # it moves to mongodb directory
+    image: manojmantha/mongodb:1.0.0 # docker build -t manojmantha/mongodb:1.0.0
     container_name: mongodb
-
+    volumes:
+    - /:/data/db
   redis:
     image: redis:7.0
     container_name: redis
-
+    volumes:
+    - redis:/data
   mysql:
     build: ./mysql
     image: manojmantha/mysql:1.0.0
     container_name: mysql
-
+    volumes:
+    - mysql:/var/lib/mysql
   rabbitmq:
     image: rabbitmq:3
     environment: 
       RABBITMQ_DEFAULT_USER: roboshop
       RABBITMQ_DEFAULT_PASS: roboshop123
     container_name: rabbitmq
-
+    volumes:
+    - rabbitmq:/var/lib/rabbitmq
 networks:
   default:
     driver: bridge
     name: roboshop
     external: false # if true, you need to create network manually
+volumes:
+  mongodb: # docker volume create mongodb
+  redis:
+  mysql:
+  rabbitmq:
