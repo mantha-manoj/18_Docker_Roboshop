@@ -1,18 +1,11 @@
-FROM node:20.20.2-alpine3.23 AS builder
+# This image user 1.0.0 version
+FROM node:20
 WORKDIR /app
+ENV MONGO="true" \
+    MONGO_URL="mongodb://mongodb:27017/catalogue" \
+    REDIS_URL="redis://redis:6379"
+EXPOSE 8080
 COPY package.json .
 COPY *.js .
 RUN npm install
-
-
-FROM node:20.20.2-alpine3.23
-WORKDIR /app
-EXPOSE 8080
-COPY --from=builder /app /app
-ENV REDIS_URL="redis://redis:6379" \
-    MONGO_URL="mongodb://mongodb:27017/users"
-RUN addgroup -S roboshop && adduser -S roboshop -G roboshop
-RUN chown -R roboshop:roboshop /app
-USER roboshop
-CMD ["server.js"]
-ENTRYPOINT [ "node" ]
+CMD ["node", "server.js"]
