@@ -21,7 +21,7 @@ services:
     - catalogue
   shipping:
     build: ./shipping
-    image: manojmantha/shipping:1.0.0
+    image: manojmantha/shipping:1.2.0
     container_name: shipping
     depends_on:
     - mysql
