@@ -1,3 +1,4 @@
+# This image catalogue 1.0.0 version 
 FROM node:20
 WORKDIR /app
 COPY package.json .
